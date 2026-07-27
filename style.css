@@ -1,0 +1,345 @@
+/* 1. Ujednolicenie modelu pudełkowego (Box-sizing) dla wszystkich elementów */
+*, *::before, *::after {
+    box-sizing: border-box;    
+}
+
+/* 2. Usunięcie domyślnych marginesów i dopełnień */
+body, h1, h2, h3, h4, p, figure, blockquote, dl, dd {
+    margin: 0;
+    padding: 0;
+}
+
+/* 3. Ustawienie dziedziczenia czcionek dla elementów formularzy */
+input, button, textarea, select {
+    font: inherit;
+}
+
+/* 4. Płynniejsze renderowanie tekstów */
+body {
+    min-height: 100vh;
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+    background-color: #000220;
+    font-family: arial, sans-serif; 
+    font-weight: 600;   
+}
+
+/* 5. Listy bez kropek/oznaczeń domyślnych (w razie potrzeby można przywrócić) */
+ul, ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* 6. Responsywność obrazków i multimediów */
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+/* 7. Zapobieganie rozjeżdżaniu się długich wyrazów */
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+
+/* 8. Usunięcie podkreśleń i kolorów z linków (opcjonalnie) */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+/* --- NAWIGACJA --- */
+header {
+    position: absolute; /* Nawigacja nakłada się na zdjęcie */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10; 
+}
+
+nav {
+    display: flex;
+    justify-content: space-between; /* Logo po lewej, kontakt po prawej */
+    align-items: center;
+    padding: 20px 5%; /* Odstępy od krawędzi ekranu */
+}
+
+.logo {
+    color: #f3e3e3;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.contact {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Odstęp między numerem a przyciskiem */
+}
+
+.phone-number {
+    color: #f3e3e3;
+    font-weight: bold;
+    transition: opacity 0.3s ease;
+}
+
+.phone-number:hover {
+    opacity: 0.7;
+}
+
+.contact button {
+    background: transparent;
+    color: #f3e3e3;
+    border: 1px solid #f3e3e3;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.contact button:hover {
+    background: #f3e3e3;
+    color: #000220;
+}
+
+/* --- HERO SECTION --- */
+.hero-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh; /* Rozciągnięcie na całą wysokość ekranu */
+    overflow: hidden;
+}
+
+.hero-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Obrazek wypełnia cały kontener bez zniekształceń */
+    opacity: 0; /* Stan początkowy dla animacji */
+    animation: fadeInBackground 2s ease-in-out forwards; 
+}
+
+/* Czarny prostokąt na dole */
+.hero-box {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000000;
+    color: #f3e3e3;
+    padding: 40px 60px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    border-top-left-radius: 8px; /* Opcjonalne zaokrąglenie */
+    border-top-right-radius: 8px;
+    
+    /* Animacja wejścia prostokąta (opcjonalna, z opóźnieniem) */
+    opacity: 0;
+    animation: fadeInBox 1.5s ease-out 1s forwards;
+}
+
+.hero-box h1 {
+    font-size: 2rem;
+    font-weight: normal;
+}
+
+.scroll-down {
+    background: transparent;
+    color: #f3e3e3;
+    border: none;
+    border-bottom: 1px solid #f3e3e3;
+    padding-bottom: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: opacity 0.3s ease;
+}
+
+.scroll-down:hover {
+    opacity: 0.6;
+}
+
+/* --- ANIMACJE (KEYFRAMES) --- */
+@keyframes fadeInBackground {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInBox {
+    from { 
+        opacity: 0; 
+        transform: translate(-50%, 50px); /* Wyjeżdża lekko z dołu */
+    }
+    to { 
+        opacity: 1; 
+        transform: translate(-50%, 0); 
+    }
+}
+/* --- SEKCJA GALERII --- */
+.gallery-section {
+    padding: 80px 5%;
+    background-color: #000000; /* Spójne tło ze stroną */
+    color: #f3e3e3;
+}
+
+.gallery-section h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 50px;
+    letter-spacing: 1px;
+}
+
+/* Responsywna siatka na 20 zdjęć */
+.gallery-grid {
+    display: grid;
+    /* Automatycznie dopasowuje kolumny (minimalna szerokość kafla to ok. 280px) */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px; /* Odstępy między zdjęciami */
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    aspect-ratio: 4 / 3; /* Zachowuje proporcje zdjęć (np. poziome) */
+    background-color: #000000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Wypełnia kadr bez zniekształceń */
+    transition: transform 0.5s ease;
+}
+
+/* Efekt powiększenia zdjęcia przy najechaniu myszką */
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(243, 227, 227, 0.15);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Responsywność dla mniejszych ekranów (np. smartfony) */
+@media (max-width: 768px) {
+    .gallery-section {
+        padding: 50px 20px;
+    }
+    
+    .gallery-section h2 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr; /* Na telefonach zdjęcia wyświetlają się pojedynczo lub w 1 kolumnie */
+        gap: 20px;
+    }
+}
+
+footer {
+    displayf: flex;
+    flex-direction: column;
+}
+footer p{
+    
+    text-align: center;
+    padding: 20px 0;
+    background-color: #000000;
+    color: #f3e3e3;
+    font-size: 1.1rem;
+    margin-bottom: 1.3rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+html.lenis, html.lenis body {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        
