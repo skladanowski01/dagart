@@ -86,7 +86,7 @@ gsap.utils.toArray('.gallery-item').forEach((item) => {
     );
 });
 
-// --- 7. OBSŁUGA MODALA PEŁNOEKRANOWEGO ZE STRZAŁKAMI ---
+// --- 7. OBSŁUGA MODALA PEŁNOEKRANOWY ZE STRZAŁKAMI ---
 const modal = document.getElementById('imageModal');
 const modalImg = document.getElementById('modalImg');
 const modalClose = document.getElementById('modalClose');
@@ -159,6 +159,6 @@ const heroVideo = document.querySelector('.hero-bg');
 if (heroVideo) {
     heroVideo.addEventListener('ended', () => {
         heroVideo.pause();
-        heroVideo.currentTime = heroVideo.duration; // Ustawia film na sam koniec
+        heroVideo.currentTime = heroVideo.duration;
     });
 }
