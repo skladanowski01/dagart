@@ -152,3 +152,13 @@ document.addEventListener('keydown', (e) => {
         updateModalImage(currentIndex);
     }
 });
+
+// --- 8. ZATRZYMANIE WIDEO HERO NA OSTATNIEJ KLATCE PO JEDNYM ODTWORZENIU ---
+const heroVideo = document.querySelector('.hero-bg');
+
+if (heroVideo) {
+    heroVideo.addEventListener('ended', () => {
+        heroVideo.pause();
+        heroVideo.currentTime = heroVideo.duration; // Ustawia film na sam koniec
+    });
+}
