@@ -392,7 +392,7 @@ html.lenis, html.lenis body {
         grid-template-columns: repeat(4, 1fr); /* 4 kafle na średnich ekranach */
     }
 }
-git 
+
 @media (max-width: 900px) {
     .gallery-grid {
         grid-template-columns: repeat(2, 1fr); /* 2 kafle na mniejszych tabletach */
