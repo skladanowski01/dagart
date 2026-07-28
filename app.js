@@ -67,19 +67,20 @@ if (logoBtn) {
     });
 }
 
-// --- 6. PŁYNNY EFEKT ZOOM I LŻEJSZEGO DIMMERA DLA GALERII ---
+// --- 6. PŁYNNY EFEKT ZOOM I ZMIANY ROZMIARU (ZOPTYMALIZOWANY DLA MOBILE) ---
 gsap.utils.toArray('.gallery-item').forEach((item) => {
     gsap.fromTo(item, 
-        { scale: 0.9, opacity: 0.7 }, // Lżejszy start (opacity 0.7 zamiast 0.3)
+        { scale: 0.85, opacity: 0.6 },
         {
             scale: 1,
             opacity: 1,
-            ease: "none",
+            ease: "power1.out",
             scrollTrigger: {
                 trigger: item,
-                start: "top bottom",     // Kafel zaczyna reagować, gdy wchodzi od dołu ekranu
-                end: "bottom top",       // Kończy cykl, gdy całkowicie opuszcza górę ekranu
-                scrub: 1                 // Płynne wygładzenie (lag) likwidujące jakiekolwiek przeskoki
+                start: "top 90%",
+                end: "center 50%",
+                scrub: 1.5,
+                invalidateOnRefresh: true
             }
         }
     );
