@@ -14,15 +14,6 @@ gsap.ticker.add((time) => {
 
 gsap.ticker.lagSmoothing(0);
 
-gsap.fromTo('.hero-bg', 
-    { scale: 1 }, 
-    { 
-        scale: 1.15, // Docelowa skala powiększenia (możesz dostosować, np. 1.1 lub 1.2)
-        duration: 10,  // Czas trwania animacji w sekundach
-        ease: "power1.out" // Płynne, naturalne wyhamowanie na końcu
-    }
-);
-
 // --- 2. OBSŁUGA PRZYCISKU "GALERIA" ---
 const scrollDownBtn = document.querySelector('.scroll-down');
 const gallerySection = document.querySelector('.gallery-section');
@@ -95,16 +86,25 @@ gsap.utils.toArray('.gallery-item').forEach((item) => {
     );
 });
 
-// --- 7. OBSŁUGA MODALA PEŁNOEKRANOWEGO ---
+// --- 7. OBSŁUGA MODALA PEŁNOEKRANOWEGO ZE STRZAŁKAMI ---
 const modal = document.getElementById('imageModal');
 const modalImg = document.getElementById('modalImg');
 const modalClose = document.getElementById('modalClose');
+const modalPrev = document.getElementById('modalPrev');
+const modalNext = document.getElementById('modalNext');
 const galleryItems = document.querySelectorAll('.gallery-item img');
 
-galleryItems.forEach(img => {
+let currentIndex = 0;
+
+function updateModalImage(index) {
+    modalImg.src = galleryItems[index].src;
+    modalImg.alt = galleryItems[index].alt;
+}
+
+galleryItems.forEach((img, index) => {
     img.addEventListener('click', () => {
-        modalImg.src = img.src;
-        modalImg.alt = img.alt;
+        currentIndex = index;
+        updateModalImage(currentIndex);
         modal.classList.add('active');
         lenis.stop();
     });
@@ -115,9 +115,21 @@ function closeModal() {
     lenis.start();
 }
 
-if (modalClose) {
-    modalClose.addEventListener('click', closeModal);
+function showPrevImage(e) {
+    e.stopPropagation();
+    currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+    updateModalImage(currentIndex);
 }
+
+function showNextImage(e) {
+    e.stopPropagation();
+    currentIndex = (currentIndex + 1) % galleryItems.length;
+    updateModalImage(currentIndex);
+}
+
+if (modalClose) modalClose.addEventListener('click', closeModal);
+if (modalPrev) modalPrev.addEventListener('click', showPrevImage);
+if (modalNext) modalNext.addEventListener('click', showNextImage);
 
 if (modal) {
     modal.addEventListener('click', (e) => {
@@ -128,7 +140,15 @@ if (modal) {
 }
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
+    if (!modal.classList.contains('active')) return;
+
+    if (e.key === 'Escape') {
         closeModal();
+    } else if (e.key === 'ArrowLeft') {
+        currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+        updateModalImage(currentIndex);
+    } else if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % galleryItems.length;
+        updateModalImage(currentIndex);
     }
 });
