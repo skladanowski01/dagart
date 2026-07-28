@@ -16,9 +16,9 @@ body {
     min-height: 100vh;
     text-rendering: optimizeSpeed;
     line-height: 1.5;
-    background-color: #000220;
+    background-color: #000000;
     font-family: arial, sans-serif; 
-    font-weight: 600;   
+    font-weight: 400;   
 }
 
 ul, ol {
@@ -53,7 +53,7 @@ header {
 }
 
 header.scrolled {
-    background-color: rgba(0, 2, 32, 0.85);
+    background-color: rgba(0, 0, 0, 0.033);
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
@@ -111,7 +111,7 @@ nav {
 
 .contact-btn:hover {
     background: #f3e3e3;
-    color: #000220;
+    color: #000000;
 }
 
 .contact-menu {
@@ -119,7 +119,7 @@ nav {
     top: calc(100% + 10px);
     right: 0;
     background-color: #000000;
-    border: 1px solid rgba(243, 227, 227, 0.2);
+    border: 1px solid rgba(243, 227, 227, 0.589);
     border-radius: 6px;
     padding: 15px 20px;
     display: flex;
@@ -211,7 +211,7 @@ nav {
 /* --- 4. SEKCJA GALERII (6 KAFLI W LINI NA DUŻYCH EKRANACH) --- */
 .gallery-section {
     padding: 120px 3%;
-    background-color: #000220;
+    background-color: #000000;
     color: #f3e3e3;
 }
 
@@ -252,7 +252,7 @@ nav {
 }
 
 .gallery-item:hover {
-    box-shadow: 0 12px 30px rgba(243, 227, 227, 0.2);
+    box-shadow: 0 12px 30px rgba(255, 255, 255, 0.2);
 }
 
 .gallery-item:hover img {
@@ -266,7 +266,7 @@ nav {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 2, 32, 0.95);
+    background-color: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(15px);
     z-index: 2000;
     display: flex;
