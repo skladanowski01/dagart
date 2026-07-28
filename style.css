@@ -1,66 +1,68 @@
-/* 1. Ujednolicenie modelu pudełkowego (Box-sizing) dla wszystkich elementów */
+/* --- 1. RESET I STYLE BAZOWE --- */
 *, *::before, *::after {
     box-sizing: border-box;    
 }
 
-/* 2. Usunięcie domyślnych marginesów i dopełnień */
 body, h1, h2, h3, h4, p, figure, blockquote, dl, dd {
     margin: 0;
     padding: 0;
 }
 
-/* 3. Ustawienie dziedziczenia czcionek dla elementów formularzy */
 input, button, textarea, select {
     font: inherit;
 }
 
-/* 4. Płynniejsze renderowanie tekstów */
 body {
     min-height: 100vh;
     text-rendering: optimizeSpeed;
     line-height: 1.5;
-    background-color: #000000;
+    background-color: #000220;
     font-family: arial, sans-serif; 
     font-weight: 600;   
 }
 
-/* 5. Listy bez kropek/oznaczeń domyślnych (w razie potrzeby można przywrócić) */
 ul, ol {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-/* 6. Responsywność obrazków i multimediów */
 img, picture, video, canvas, svg {
     display: block;
     max-width: 100%;
 }
 
-/* 7. Zapobieganie rozjeżdżaniu się długich wyrazów */
 p, h1, h2, h3, h4, h5, h6 {
     overflow-wrap: break-word;
 }
 
-/* 8. Usunięcie podkreśleń i kolorów z linków (opcjonalnie) */
 a {
     text-decoration: none;
     color: inherit;
 }
-/* --- NAWIGACJA --- */
+
+/* --- 2. NAWIGACJA I TRANSPARENTNY HEADER --- */
 header {
-    position: absolute; /* Nawigacja nakłada się na zdjęcie */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 10; 
+    z-index: 1000;
+    background-color: transparent;
+    transition: background-color 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease;
+}
+
+header.scrolled {
+    background-color: rgba(0, 2, 32, 0.85);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 nav {
     display: flex;
-    justify-content: space-between; /* Logo po lewej, kontakt po prawej */
+    justify-content: space-between;
     align-items: center;
-    padding: 20px 5%; /* Odstępy od krawędzi ekranu */
+    padding: 20px 5%;
 }
 
 .logo {
@@ -69,12 +71,18 @@ nav {
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.logo:hover {
+    opacity: 0.8;
 }
 
 .contact {
     display: flex;
     align-items: center;
-    gap: 20px; /* Odstęp między numerem a przyciskiem */
+    gap: 20px;
 }
 
 .phone-number {
@@ -87,7 +95,12 @@ nav {
     opacity: 0.7;
 }
 
-.contact button {
+/* Przycisk kontakt i rozwijane menu */
+.contact-dropdown-wrapper {
+    position: relative;
+}
+
+.contact-btn {
     background: transparent;
     color: #f3e3e3;
     border: 1px solid #f3e3e3;
@@ -96,28 +109,64 @@ nav {
     transition: background 0.3s, color 0.3s;
 }
 
-.contact button:hover {
+.contact-btn:hover {
     background: #f3e3e3;
-    color: #000000;
+    color: #000220;
 }
 
-/* --- HERO SECTION --- */
+.contact-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background-color: #000000;
+    border: 1px solid rgba(243, 227, 227, 0.2);
+    border-radius: 6px;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 180px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+.contact-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.contact-menu a {
+    color: #f3e3e3;
+    font-size: 0.95rem;
+    font-weight: normal;
+    transition: opacity 0.3s ease;
+}
+
+.contact-menu a:hover {
+    opacity: 0.7;
+}
+
+/* --- 3. SEKCJA HERO --- */
 .hero-container {
     position: relative;
     width: 100vw;
-    height: 100vh; /* Rozciągnięcie na całą wysokość ekranu */
+    height: 100vh;
     overflow: hidden;
 }
 
 .hero-bg {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Obrazek wypełnia cały kontener bez zniekształceń */
-    opacity: 0; /* Stan początkowy dla animacji */
+    object-fit: cover;
+    opacity: 0;
     animation: fadeInBackground 2s ease-in-out forwards; 
 }
 
-/* Czarny prostokąt na dole */
 .hero-box {
     position: absolute;
     bottom: 0;
@@ -131,10 +180,8 @@ nav {
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    border-top-left-radius: 8px; /* Opcjonalne zaokrąglenie */
+    border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    
-    /* Animacja wejścia prostokąta (opcjonalna, z opóźnieniem) */
     opacity: 0;
     animation: fadeInBox 1.5s ease-out 1s forwards;
 }
@@ -161,7 +208,151 @@ nav {
     opacity: 0.6;
 }
 
-/* --- ANIMACJE (KEYFRAMES) --- */
+/* --- 4. SEKCJA GALERII (6 KAFLI W LINI NA DUŻYCH EKRANACH) --- */
+.gallery-section {
+    padding: 120px 3%;
+    background-color: #000220;
+    color: #f3e3e3;
+}
+
+.gallery-section h2 {
+    font-size: 2.8rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 70px;
+    letter-spacing: 1px;
+}
+
+.gallery-grid {
+    display: grid;
+    /* Na dużych ekranach dokładnie 6 kafli w linii, automatyczna responsywność */
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+    max-width: 1920px; /* Zwiększona szerokość kontenera dla large screen */
+    margin: 0 auto;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    aspect-ratio: 4 / 3;
+    background-color: #000000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    will-change: transform, opacity;
+    transition: box-shadow 0.4s ease;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover {
+    box-shadow: 0 12px 30px rgba(243, 227, 227, 0.2);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.08);
+}
+
+/* --- 5. MODAL PEŁNOEKRANOWY --- */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 2, 32, 0.95);
+    backdrop-filter: blur(15px);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-img {
+    max-width: 95%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    transform: scale(0.9);
+    transition: transform 0.4s ease;
+}
+
+.modal.active .modal-img {
+    transform: scale(1);
+}
+
+.modal-close {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    background: transparent;
+    border: none;
+    color: #f3e3e3;
+    font-size: 3rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal-close:hover {
+    opacity: 0.7;
+    transform: scale(1.1);
+}
+
+/* --- 6. STOPKA --- */
+footer {
+    background-color: #000000;
+    color: #f3e3e3;
+    padding: 40px 20px 6rem 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+footer .phone-number {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #f3e3e3;
+    transition: opacity 0.3s ease;
+}
+
+footer .phone-number:hover {
+    opacity: 0.7;
+}
+
+footer p {
+    font-size: 1rem;
+    color: #f3e3e3;
+    opacity: 0.8;
+    margin: 0;
+}
+
+/* --- 7. ANIMACJE KEYFRAMES --- */
 @keyframes fadeInBackground {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -170,67 +361,45 @@ nav {
 @keyframes fadeInBox {
     from { 
         opacity: 0; 
-        transform: translate(-50%, 50px); /* Wyjeżdża lekko z dołu */
+        transform: translate(-50%, 50px); 
     }
     to { 
         opacity: 1; 
         transform: translate(-50%, 0); 
     }
 }
-/* --- SEKCJA GALERII --- */
-.gallery-section {
-    padding: 80px 5%;
-    background-color: #000000; /* Spójne tło ze stroną */
-    color: #f3e3e3;
-}
 
-.gallery-section h2 {
-    font-size: 2.5rem;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 50px;
-    letter-spacing: 1px;
+/* --- 8. LENIS SMOOTH SCROLL --- */
+html.lenis, html.lenis body {
+    height: auto;
 }
-
-/* Responsywna siatka na 20 zdjęć */
-.gallery-grid {
-    display: grid;
-    /* Automatycznie dopasowuje kolumny (minimalna szerokość kafla to ok. 280px) */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px; /* Odstępy między zdjęciami */
-    max-width: 1400px;
-    margin: 0 auto;
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
 }
-
-.gallery-item {
-    position: relative;
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
     overflow: hidden;
-    border-radius: 6px;
-    aspect-ratio: 4 / 3; /* Zachowuje proporcje zdjęć (np. poziome) */
-    background-color: #000000;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
 }
 
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Wypełnia kadr bez zniekształceń */
-    transition: transform 0.5s ease;
+/* --- 9. MEDIA QUERIES (RESPONSYWNOŚĆ) --- */
+@media (max-width: 1400px) {
+    .gallery-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 kafle na średnich ekranach */
+    }
+}
+git 
+@media (max-width: 900px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 kafle na mniejszych tabletach */
+    }
 }
 
-/* Efekt powiększenia zdjęcia przy najechaniu myszką */
-.gallery-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(243, 227, 227, 0.15);
-}
-
-.gallery-item:hover img {
-    transform: scale(1.05);
-}
-
-/* Responsywność dla mniejszych ekranów (np. smartfony) */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .gallery-section {
         padding: 50px 20px;
     }
@@ -241,105 +410,13 @@ nav {
     }
 
     .gallery-grid {
-        grid-template-columns: 1fr; /* Na telefonach zdjęcia wyświetlają się pojedynczo lub w 1 kolumnie */
+        grid-template-columns: 1fr; /* 1 kafel na telefonach */
         gap: 20px;
     }
+
+    .modal-close {
+        top: 15px;
+        right: 20px;
+        font-size: 2.5rem;
+    }
 }
-
-footer {
-    displayf: flex;
-    flex-direction: column;
-}
-footer p{
-    
-    text-align: center;
-    padding: 20px 0;
-    background-color: #000000;
-    color: #f3e3e3;
-    font-size: 1.1rem;
-    margin-bottom: 1.3rem;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-html.lenis, html.lenis body {
-            height: auto;
-        }
-        .lenis.lenis-smooth {
-            scroll-behavior: auto !important;
-        }
-        .lenis.lenis-smooth [data-lenis-prevent] {
-            overscroll-behavior: contain;
-        }
-        .lenis.lenis-stopped {
-            overflow: hidden;
-        }
-        .lenis.lenis-scrolling iframe {
-            pointer-events: none;
-        }
-
-        
