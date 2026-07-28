@@ -14,6 +14,15 @@ gsap.ticker.add((time) => {
 
 gsap.ticker.lagSmoothing(0);
 
+gsap.fromTo('.hero-bg', 
+    { scale: 1 }, 
+    { 
+        scale: 1.15, // Docelowa skala powiększenia (możesz dostosować, np. 1.1 lub 1.2)
+        duration: 10,  // Czas trwania animacji w sekundach
+        ease: "power1.out" // Płynne, naturalne wyhamowanie na końcu
+    }
+);
+
 // --- 2. OBSŁUGA PRZYCISKU "GALERIA" ---
 const scrollDownBtn = document.querySelector('.scroll-down');
 const gallerySection = document.querySelector('.gallery-section');
